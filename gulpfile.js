@@ -143,12 +143,12 @@ gulp.task('watch', function () {
 function minifyJs(srcList,filename){
 
   gulp.src(srcList)
-    //.pipe(sourcemaps.init())
+    .pipe(sourcemaps.init())
     .pipe(concat(filename+'.js'))
      .pipe(uglify().on('error', function(e){
              console.log(e);
           }))
-    //.pipe(sourcemaps.write('./maps'))
+    .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest('./public_html/js'));
     
 }
