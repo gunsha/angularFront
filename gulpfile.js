@@ -58,6 +58,11 @@ gulp.task('seccion',function(){
   var name = yargs.argv.name;
   var destPathCtrl = path.join('./dev/js/controller/');
   var destPathSrvc = path.join('./dev/js/servicios/');
+  gulp.src('./dev/templates/seccion/temp.html')
+    .pipe(rename(function(path){
+      path.basename = path.basename.replace('temp', name);
+    }))
+    .pipe(gulp.dest('./dev/html/'));
   gulp.src('./dev/templates/seccion/tempCtrl.js')
     .pipe(template({
       name: name,
@@ -129,11 +134,19 @@ gulp.task('core',function(){
   .pipe(gulp.dest('./public_html/components'));
   minifyJs(srcList,'app');
 });
+gulp.task('templates',function(){
+  
+  gulp.src('./dev/html/**/*.*', { base: './dev/html/' })
+  .pipe(gulp.dest('./public_html/templates'));
+  
+});
 gulp.task('watch', function () {
-    watch(['dev/js/**/*.js','dev/js/**/*.css','dev/js/**/*.html'], batch(function (events, done) {
+    watch(['dev/js/**/*.js','dev/js/**/*.html'], batch(function (events, done) {
         gulp.start('core', done);
     }));
-
+    watch(['dev/html/**/*.html','dev/html/*.html'], batch(function (events, done) {
+      gulp.start('templates', done);
+  }));
     watch(['dev/css/*.css','dev/js/**/*.css'], batch(function (events, done) {
         gulp.start('css', done);
     }));
@@ -185,4 +198,8 @@ gulp.task('serve',function () {
  }).listen(8082);
 });
 
-gulp.task('default', ['build','watch','serve']);
+gulp.task('build',['css','scripts','templates']);
+
+gulp.task('default', ['build','watch']);
+
+gulp.task('server',['default','serve']);

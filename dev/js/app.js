@@ -1,6 +1,6 @@
 var apiRoute = '';
 
-angular.module('app', ['ui.router', 'angular-growl', 'blockUI', 'ui.bootstrap', ])
+angular.module('app', ['ui.router', 'angular-growl', 'blockUI' ])
     .run(['$rootScope', '$state', '$anchorScroll', 'growl', function(r, s, $anchorScroll, growl) {
         r.hideNav = false;
         r.navTitle = '';
